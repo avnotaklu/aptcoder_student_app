@@ -1,11 +1,7 @@
 import 'package:aptcoder/bloc/authentication/authentication_bloc.dart';
-import 'package:aptcoder/main.dart';
 import 'package:aptcoder/service/constants.dart';
 import 'package:aptcoder/service/user.dart';
-import 'package:aptcoder/views/admin_panel.dart';
-import 'package:aptcoder/views/homepage.dart';
 import 'package:aptcoder/views/student_login.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -36,7 +32,7 @@ class AdminLoginPage extends StatelessWidget {
         },
         builder: ((context, state) {
           if (state is LoginProgressState) {
-            return Scaffold(
+            return const Scaffold(
               body: LoadingWidget(),
             );
           }
@@ -62,7 +58,7 @@ class AdminLoginPage extends StatelessWidget {
                   height: height * 0.03,
                 ),
                 Center(
-                  child: Container(
+                  child: SizedBox(
                       height: height * 0.4,
                       width: width * 0.8,
                       child: Image.asset(
@@ -83,7 +79,7 @@ class AdminLoginPage extends StatelessWidget {
                           )),
                           elevation: MaterialStateProperty.all(0)),
                       onPressed: () => authBloc.add(LoginRequestedEvent(Usertype.admin)),
-                      child: Text(
+                      child: const Text(
                         "Login with google",
                       )),
                 ),
@@ -100,7 +96,7 @@ class AdminLoginPage extends StatelessWidget {
                           )),
                           elevation: MaterialStateProperty.all(0)),
                       onPressed: () => Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(builder: (context) => StudentLoginPage()), (route) => false),
+                          MaterialPageRoute(builder: (context) => const StudentLoginPage()), (route) => false),
                       child: const Text("Login as student")),
                 ),
               ],

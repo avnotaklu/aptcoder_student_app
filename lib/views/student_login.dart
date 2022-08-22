@@ -51,7 +51,7 @@ class StudentLoginPage extends StatelessWidget {
                   height: height * 0.03,
                 ),
                 Center(
-                  child: Container(
+                  child: SizedBox(
                       height: height * 0.4,
                       width: width * 0.8,
                       child: Image.asset(
@@ -72,7 +72,7 @@ class StudentLoginPage extends StatelessWidget {
                           )),
                           elevation: MaterialStateProperty.all(0)),
                       onPressed: () => authBloc.add(LoginRequestedEvent(Usertype.student)),
-                      child: Text(
+                      child: const Text(
                         "Login with google",
                       )),
                 ),
@@ -89,7 +89,7 @@ class StudentLoginPage extends StatelessWidget {
                           )),
                           elevation: MaterialStateProperty.all(0)),
                       onPressed: () => Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(builder: (context) => AdminLoginPage()), (route) => false),
+                          MaterialPageRoute(builder: (context) => const AdminLoginPage()), (route) => false),
                       child: const Text("Login as admin")),
                 ),
               ],

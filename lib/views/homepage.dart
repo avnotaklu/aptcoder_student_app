@@ -8,7 +8,6 @@ import 'package:aptcoder/views/widgets/error.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:open_file/open_file.dart';
 
 import 'widgets/skeleton.dart';
 
@@ -55,7 +54,7 @@ class HomePage extends StatelessWidget {
                   SizedBox(
                     height: height * 0.02,
                   ),
-                  Container(
+                  SizedBox(
                     height: height * 0.35,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,7 +82,7 @@ class HomePage extends StatelessWidget {
                                           url: course.resourceUrl, filename: course.resourceName);
                                     },
                                     child: Container(
-                                      padding: EdgeInsets.symmetric(horizontal: 6),
+                                      padding: const EdgeInsets.symmetric(horizontal: 6),
                                       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                                         Container(
                                           padding: const EdgeInsets.only(left: 12),
@@ -148,7 +147,7 @@ class HomePage extends StatelessWidget {
                           showDialog(
                               context: context,
                               builder: ((context) => ClipRRect(
-                                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                                  borderRadius: const BorderRadius.all(Radius.circular(10)),
                                   child: Dialog(
                                       child: ErrorDisplay(
                                           width: width * 0.7, height: height * 0.5, "Failure loading courses")))));
@@ -225,7 +224,7 @@ class HomePage extends StatelessWidget {
                                     height: height * 0.015,
                                   ),
                                   ListView.builder(
-                                      physics: NeverScrollableScrollPhysics(),
+                                      physics: const NeverScrollableScrollPhysics(),
                                       shrinkWrap: true,
                                       itemCount: courseState.courses.length,
                                       itemBuilder: ((context, index) {
@@ -330,7 +329,7 @@ class HomePage extends StatelessWidget {
               ),
             );
           } else {
-            return SizedBox.shrink();
+            return const SizedBox.shrink();
           }
         }),
       ),

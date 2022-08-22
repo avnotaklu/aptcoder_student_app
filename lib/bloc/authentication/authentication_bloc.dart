@@ -1,13 +1,8 @@
-import 'dart:async';
 
-import 'package:aptcoder/bloc/authentication/authentication_bloc.dart';
-import 'package:aptcoder/data/student_profile_service.dart';
-import 'package:aptcoder/model/student.dart';
 import 'package:aptcoder/service/auth.dart';
 import 'package:aptcoder/service/user.dart';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:meta/meta.dart';
 part 'authentication_event.dart';
 part 'authentication_state.dart';

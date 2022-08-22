@@ -1,25 +1,23 @@
 import 'package:aptcoder/bloc/admin/admin_bloc.dart';
 import 'package:aptcoder/bloc/authentication/authentication_bloc.dart';
 import 'package:aptcoder/bloc/courses/courses_bloc.dart';
-import 'package:aptcoder/bloc/profile/profile_bloc.dart';
 import 'package:aptcoder/service/constants.dart';
-import 'package:aptcoder/views/user_profile.dart';
 import 'package:aptcoder/views/widgets/skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shimmer/shimmer.dart';
 
 class AdminAppBar extends StatelessWidget implements PreferredSize {
   final double _height;
-  AdminAppBar(
+  const AdminAppBar(
     this._height, {
     Key? key,
   }) : super(key: key);
+  @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return Container(
       decoration:
-          BoxDecoration(color: secondaryColor, borderRadius: BorderRadius.vertical(bottom: Radius.circular(10))),
+          const BoxDecoration(color: secondaryColor, borderRadius: BorderRadius.vertical(bottom: Radius.circular(10))),
       child: Column(
         children: [
           AppBar(
@@ -60,7 +58,7 @@ class AdminAppBar extends StatelessWidget implements PreferredSize {
             ),
             leadingWidth: width * 0.18,
             toolbarHeight: preferredSize.height * 0.4,
-            leading: Container(
+            leading: SizedBox(
               height: preferredSize.height * 0.1,
               child: Padding(
                 padding: const EdgeInsets.all(6.0),

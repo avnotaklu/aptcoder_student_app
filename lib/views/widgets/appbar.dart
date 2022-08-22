@@ -5,18 +5,18 @@ import 'package:aptcoder/views/user_profile.dart';
 import 'package:aptcoder/views/widgets/skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shimmer/shimmer.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSize {
   final double _height;
-  MyAppBar(
+  const MyAppBar(
     this._height, {
     Key? key,
   }) : super(key: key);
+  @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return Container(
-      decoration: BoxDecoration(color: primaryColor, borderRadius: BorderRadius.vertical(bottom: Radius.circular(10))),
+      decoration: const BoxDecoration(color: primaryColor, borderRadius: BorderRadius.vertical(bottom: Radius.circular(10))),
       child: Column(
         children: [
           AppBar(
@@ -114,8 +114,8 @@ class MyAppBar extends StatelessWidget implements PreferredSize {
                           constraints: BoxConstraints(maxWidth: width * 0.4),
                           child: Row(
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 8.0),
+                              const Padding(
+                                padding: EdgeInsets.only(left: 8.0),
                                 child: Icon(
                                   Icons.read_more,
                                   color: Colors.white,

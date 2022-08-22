@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class ErrorDisplay extends StatelessWidget {
   final String error;
@@ -18,14 +16,14 @@ class ErrorDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     return Material(
-      child: Container(
+      child: SizedBox(
         height: height,
         width: width,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 50),
+              padding: const EdgeInsets.symmetric(horizontal: 50),
               child: Image.asset(
                 'assets/images/warning.png',
                 fit: BoxFit.fill,
@@ -62,14 +60,14 @@ class InfoDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     return Material(
-      child: Container(
+      child: SizedBox(
         height: height,
         width: width,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 50),
+              padding: const EdgeInsets.symmetric(horizontal: 50),
               child: Image.asset(
                 'assets/images/information.png',
                 fit: BoxFit.fill,

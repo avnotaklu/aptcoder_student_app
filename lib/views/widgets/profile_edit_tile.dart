@@ -2,7 +2,6 @@ import 'package:aptcoder/bloc/profile/profile_bloc.dart';
 import 'package:aptcoder/model/student.dart';
 import 'package:aptcoder/service/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfileEditTile extends StatelessWidget {
@@ -71,7 +70,7 @@ class ProfileEditPrompt extends StatelessWidget {
 
   final TextInputType inputType;
 
-  ProfileEditPrompt(
+  const ProfileEditPrompt(
       {super.key,
       this.title,
       required this.onEditConfirm,
@@ -129,7 +128,7 @@ class ProfileEditPrompt extends StatelessWidget {
                       onTap: () {
                         context.read<ProfileBloc>().add(CancelUpdateMode(state.student));
                       },
-                      child: Icon(color: Colors.red, size: 24, Icons.cancel)),
+                      child: const Icon(color: Colors.red, size: 24, Icons.cancel)),
                   GestureDetector(
                       onTap: () {
                         showDialog(
@@ -157,7 +156,7 @@ class ProfileEditPrompt extends StatelessWidget {
                           },
                         );
                       },
-                      child: Icon(color: primaryColor, size: 24, Icons.check)),
+                      child: const Icon(color: primaryColor, size: 24, Icons.check)),
                 ],
               );
             }

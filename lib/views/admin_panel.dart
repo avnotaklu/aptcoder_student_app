@@ -36,7 +36,7 @@ class AdminPanel extends StatelessWidget {
               showDialog(
                   context: context,
                   builder: ((context) => ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
                       child: Dialog(
                           child: InfoDisplay(width: width * 0.7, height: height * 0.5, "Successfully added course")))));
               context.read<CoursesBloc>().add(LoadCoursesEvent());
@@ -44,7 +44,7 @@ class AdminPanel extends StatelessWidget {
           },
           builder: (context, state) {
             if (state is CreateCourseInProgress) {
-              return Scaffold(
+              return const Scaffold(
                 body: LoadingWidget(),
               );
             }
@@ -79,7 +79,6 @@ class AdminPanel extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: ElevatedButton(
-                            child: Text("Create New"),
                             onPressed: () async {
                               final bloc = context.read<CourseCreateBloc>()..add(ResetCourseCreateDialog());
                               final nameController = TextEditingController();
@@ -120,7 +119,7 @@ class AdminPanel extends StatelessWidget {
                                                     showDialog(
                                                         context: context,
                                                         builder: ((context) => ClipRRect(
-                                                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                                                            borderRadius: const BorderRadius.all(Radius.circular(10)),
                                                             child: Dialog(
                                                                 child: ErrorDisplay(
                                                                     width: width * 0.7,
@@ -155,12 +154,12 @@ class AdminPanel extends StatelessWidget {
                                                           height: height * 0.055,
                                                           child: DropdownButtonFormField<CourseType>(
                                                               value: state.type,
-                                                              hint: Text("Type"),
+                                                              hint: const Text("Type"),
                                                               items: CourseType.values
                                                                   .map<DropdownMenuItem<CourseType>>(
                                                                       (e) => DropdownMenuItem(
-                                                                            child: Text(e.name),
                                                                             value: e,
+                                                                            child: Text(e.name),
                                                                           ))
                                                                   .toList(),
                                                               onChanged: (value) => {
@@ -170,12 +169,12 @@ class AdminPanel extends StatelessWidget {
                                                                           .add(TypeChangeEvent(value))
                                                                   }),
                                                         ),
-                                                        Container(
+                                                        SizedBox(
                                                           height: height * 0.1,
                                                           child: FittedBox(
                                                               child: Row(
                                                             children: [
-                                                              Container(
+                                                              SizedBox(
                                                                 width: width * 0.1,
                                                                 child: GestureDetector(
                                                                   onTap: () {
@@ -189,7 +188,7 @@ class AdminPanel extends StatelessWidget {
                                                                               state.image!,
                                                                               fit: BoxFit.fill,
                                                                             )
-                                                                          : Icon(Icons.image)),
+                                                                          : const Icon(Icons.image)),
                                                                 ),
                                                               ),
                                                               IconButton(
@@ -207,13 +206,12 @@ class AdminPanel extends StatelessWidget {
                                                             ],
                                                           )),
                                                         ),
-                                                        Container(
+                                                        SizedBox(
                                                           height: height * 0.1,
                                                           child: Row(
                                                             mainAxisAlignment: MainAxisAlignment.center,
                                                             children: [
                                                               ElevatedButton(
-                                                                child: Text("Cancel"),
                                                                 onPressed: () {
                                                                   Navigator.of(context).pop();
                                                                 },
@@ -226,9 +224,9 @@ class AdminPanel extends StatelessWidget {
                                                                   backgroundColor:
                                                                       MaterialStateProperty.all(secondaryColor),
                                                                 ),
+                                                                child: const Text("Cancel"),
                                                               ),
                                                               ElevatedButton(
-                                                                child: Text("Create"),
                                                                 onPressed: () {
                                                                   context
                                                                       .read<CourseCreateBloc>()
@@ -250,6 +248,7 @@ class AdminPanel extends StatelessWidget {
                                                                   backgroundColor:
                                                                       MaterialStateProperty.all(secondaryColor),
                                                                 ),
+                                                                child: const Text("Create"),
                                                               ),
                                                             ],
                                                           ),
@@ -257,7 +256,7 @@ class AdminPanel extends StatelessWidget {
                                                       ],
                                                     );
                                                   } else {
-                                                    return SizedBox.shrink();
+                                                    return const SizedBox.shrink();
                                                   }
                                                 },
                                               ),
@@ -274,6 +273,7 @@ class AdminPanel extends StatelessWidget {
                               foregroundColor: MaterialStateProperty.all(Colors.black),
                               backgroundColor: MaterialStateProperty.all(secondaryColor),
                             ),
+                            child: const Text("Create New"),
                           ),
                         ),
                         BlocBuilder<CoursesBloc, CoursesState>(
@@ -347,7 +347,7 @@ class AdminPanel extends StatelessWidget {
                                         height: height * 0.015,
                                       ),
                                       ListView.builder(
-                                          physics: NeverScrollableScrollPhysics(),
+                                          physics: const NeverScrollableScrollPhysics(),
                                           shrinkWrap: true,
                                           itemCount: state.courses.length,
                                           itemBuilder: ((context, index) {

@@ -4,29 +4,29 @@ part of 'profile_bloc.dart';
 abstract class ProfileStateWithStudent {
   final Student student;
 
-  ProfileStateWithStudent(this.student);
+  const ProfileStateWithStudent(this.student);
 }
 
 class ProfileInitial extends ProfileStateWithStudent {
-  ProfileInitial(student) : super(student);
+  const ProfileInitial(student) : super(student);
 }
 
 class UpdateProfileProgress extends ProfileStateWithStudent {
-  UpdateProfileProgress(student) : super(student);
+  const UpdateProfileProgress(student) : super(student);
 }
 
 class UpdateFailureState extends ProfileStateWithStudent {
   final String error;
 
-  UpdateFailureState(this.error, student) : super(student);
+  const UpdateFailureState(this.error, student) : super(student);
 }
 
 class UpdateSuccessState extends ProfileStateWithStudent {
-  UpdateSuccessState(student) : super(student);
+  const UpdateSuccessState(student) : super(student);
 }
 
 class EditProfileState extends ProfileStateWithStudent {
   final String label;
 
-  EditProfileState(this.label, student) : super(student);
+  const EditProfileState(this.label, student) : super(student);
 }

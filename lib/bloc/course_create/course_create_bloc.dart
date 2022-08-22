@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:aptcoder/service/picker_service.dart';
-import 'package:aptcoder/bloc/admin/admin_bloc.dart';
 import 'package:aptcoder/data/courses_service.dart';
 import 'package:aptcoder/model/course.dart';
 import 'package:bloc/bloc.dart';
@@ -31,7 +30,7 @@ class CourseCreateBloc extends Bloc<CourseCreateEvent, CourseCreateState> {
             type: event.type!,
             resourceUrl: resourceUrl,
             imageUrl: imageUrl,
-            id: await CoursesService.getNewDocId(),
+            id: CoursesService.getNewDocId(),
             resourceName: event.filename!,
           ));
           emit(CoursesCreateSuccessState());
@@ -41,7 +40,7 @@ class CourseCreateBloc extends Bloc<CourseCreateEvent, CourseCreateState> {
       }
       if (event is ResourceLoadEvent) {
         try {
-          final allowedFileType;
+          final String allowedFileType;
           switch ((state as CourseCreateInitial).type!) {
             case CourseType.video:
               allowedFileType = "mp4";

@@ -14,7 +14,7 @@ class Course {
   final String resourceName;
   final String imageUrl;
 
-  Course({
+  const Course({
     required this.name,
     required this.type,
     required this.resourceUrl,

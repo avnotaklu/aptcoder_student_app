@@ -1,13 +1,8 @@
 import 'package:aptcoder/bloc/authentication/authentication_bloc.dart';
 import 'package:aptcoder/bloc/profile/profile_bloc.dart';
-import 'package:aptcoder/bloc/student/student_bloc.dart';
-import 'package:aptcoder/model/student.dart';
 import 'package:aptcoder/service/constants.dart';
 import 'package:aptcoder/views/widgets/profile_edit_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UserProfile extends StatelessWidget {
@@ -20,7 +15,7 @@ class UserProfile extends StatelessWidget {
     return BlocBuilder<ProfileBloc, ProfileStateWithStudent>(
       builder: (context, state) {
         if (state is UpdateProfileProgress) {
-          return Scaffold(body: LoadingWidget());
+          return const Scaffold(body: LoadingWidget());
         }
         final student = (state).student;
         return Scaffold(
@@ -43,7 +38,7 @@ class UserProfile extends StatelessWidget {
             automaticallyImplyLeading: true,
           ),
           body: SingleChildScrollView(
-            physics: ClampingScrollPhysics(),
+            physics: const ClampingScrollPhysics(),
             child: Column(
               children: [
                 Stack(
@@ -54,6 +49,7 @@ class UserProfile extends StatelessWidget {
                           color: secondaryColor, borderRadius: BorderRadius.vertical(bottom: Radius.circular(10))),
                     ),
                     Positioned(
+                      
                       left: width * 0.05,
                       top: height * 0.027,
                       child: Container(

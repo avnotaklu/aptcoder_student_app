@@ -73,7 +73,7 @@ class MyApp extends StatelessWidget {
                                 builder: ((context) => BlocProvider<StudentBloc>(
                                     create: (context) =>
                                         StudentBloc(context.read<AuthenticationBloc>())..add(FetchStudentEvent()),
-                                    child: HomePage()))),
+                                    child: const HomePage()))),
                             (route) => false)
                       }
                     else
@@ -83,7 +83,7 @@ class MyApp extends StatelessWidget {
                                 builder: ((context) => BlocProvider<AdminBloc>(
                                     create: (context) =>
                                         AdminBloc(context.read<AuthenticationBloc>())..add(AddAdminEvent(state.user)),
-                                    child: AdminPanel()))),
+                                    child: const AdminPanel()))),
                             (route) => false)
                       }
                   }
@@ -94,7 +94,7 @@ class MyApp extends StatelessWidget {
                             builder: ((context) => BlocProvider<StudentBloc>(
                                 create: (context) =>
                                     StudentBloc(context.read<AuthenticationBloc>())..add(AddStudentEvent(state.user)),
-                                child: HomePage()))),
+                                child: const HomePage()))),
                         (route) => false)
                   }
                 else if (state is NewUserAuthenticated && state.type == Usertype.admin)
@@ -103,7 +103,7 @@ class MyApp extends StatelessWidget {
                           builder: ((context) => BlocProvider<AdminBloc>(
                               create: (context) =>
                                   AdminBloc(context.read<AuthenticationBloc>())..add(AddAdminEvent(state.user)),
-                              child: AdminPanel()))),
+                              child: const AdminPanel()))),
                       (route) => false)
               }),
           child: child)),
