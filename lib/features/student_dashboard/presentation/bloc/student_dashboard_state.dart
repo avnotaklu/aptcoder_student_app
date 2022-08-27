@@ -5,7 +5,7 @@ abstract class StudentDashboardState extends Equatable {
   const StudentDashboardState(this._props);
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => _props;
 }
 
 class StudentDashboardInitial extends StudentDashboardState {
@@ -15,22 +15,21 @@ class StudentDashboardInitial extends StudentDashboardState {
 
 class StudentErrorState extends StudentDashboardState {
   final String error;
-  StudentErrorState(this.error) : super([]);
+  StudentErrorState(this.error) : super([error]);
 }
-
 
 class StudentViewCourseErrorState extends StudentDashboardState {
   final String error;
-  StudentViewCourseErrorState(this.error) : super([]);
+  StudentViewCourseErrorState(this.error) : super([error]);
 }
 
 class StudentLastCoursesErrorState extends StudentDashboardState {
   final String error;
-  StudentLastCoursesErrorState(this.error) : super([]);
+  StudentLastCoursesErrorState(this.error) : super([error]);
 }
 
 class StudentLoadedState extends StudentDashboardState {
   final Student student;
   final List<Course> viewedCourses;
-  const StudentLoadedState(this.student, this.viewedCourses) : super(const []);
+  StudentLoadedState(this.student, this.viewedCourses) : super([student, ...viewedCourses]);
 }

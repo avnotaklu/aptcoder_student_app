@@ -1,13 +1,13 @@
-import 'package:aptcoder/features/student_dashboard/presentation/bloc/student_dashboard_bloc.dart';
+import 'package:aptcoder/features/admin/presentation/bloc/admin_bloc.dart';
+import 'package:aptcoder/features/login/presentation/bloc/authentication_bloc.dart';
 import 'package:aptcoder/service/constants.dart';
-import 'package:aptcoder/views/user_profile.dart';
 import 'package:aptcoder/views/widgets/skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class MyAppBar extends StatelessWidget implements PreferredSize {
+class AdminAppBar extends StatelessWidget implements PreferredSize {
   final double _height;
-  const MyAppBar(
+  const AdminAppBar(
     this._height, {
     Key? key,
   }) : super(key: key);
@@ -16,26 +16,34 @@ class MyAppBar extends StatelessWidget implements PreferredSize {
     final width = MediaQuery.of(context).size.width;
     return Container(
       decoration:
-          const BoxDecoration(color: primaryColor, borderRadius: BorderRadius.vertical(bottom: Radius.circular(10))),
+          const BoxDecoration(color: secondaryColor, borderRadius: BorderRadius.vertical(bottom: Radius.circular(10))),
       child: Column(
         children: [
           AppBar(
             elevation: 0,
-            backgroundColor: primaryColor,
+            backgroundColor: secondaryColor,
             centerTitle: true,
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(
               bottom: Radius.circular(10),
             )),
-            title: BlocBuilder<StudentDashboardBloc, StudentDashboardState>(
+            actions: [
+              IconButton(
+                  onPressed: () => context.read<AuthenticationBloc>(), // .add(LogoutEvent()),
+                  icon: const Icon(
+                    Icons.logout,
+                    color: Colors.black,
+                  ))
+            ],
+            title: BlocBuilder<AdminBloc, AdminState>(
               builder: (context, state) {
-                if (state is StudentLoadedState) {
+                if (state is AdminLoadedState) {
                   return RichText(
                       text: TextSpan(children: [
                     TextSpan(text: "Your Dashboard", style: Theme.of(context).textTheme.headlineMedium),
                   ]));
                   // return Text(
-                  //   "Welcome ${state.student.name}",
+                  //   "Welcome ${state.Admin.name}",
                   //   style: Theme.of(context).textTheme.titleSmall,
                   // );
                 } else {
@@ -48,35 +56,27 @@ class MyAppBar extends StatelessWidget implements PreferredSize {
               },
             ),
             leadingWidth: width * 0.18,
-            leading: Container(
-              margin: const EdgeInsets.only(top: 4),
-              padding: const EdgeInsets.only(left: 10),
-              decoration: BoxDecoration(
-                  color: Colors.grey.shade300,
-                  borderRadius: const BorderRadius.horizontal(right: Radius.circular(20), left: Radius.circular(5))),
+            toolbarHeight: preferredSize.height * 0.4,
+            leading: SizedBox(
+              height: preferredSize.height * 0.1,
               child: Padding(
                 padding: const EdgeInsets.all(6.0),
                 child: ClipOval(
-                  child: BlocBuilder<StudentDashboardBloc, StudentDashboardState>(
+                  child: BlocBuilder<AdminBloc, AdminState>(
                     builder: (context, state) {
-                      if (state is StudentLoadedState) {
+                      if (state is AdminLoadedState) {
                         return GestureDetector(
                           onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (newContext) => Scaffold(
-                                            body: Center(
-                                          child: Text("Edit profile"),
-                                        ))));
-                            // ((newContext) => BlocProvider<ProfileBloc>(
-                            //       create: (newContext) =>
-                            //           ProfileBloc(state.student, context.read<StudentBloc>()),
-                            //       child: const UserProfile(),
-                            //     ))));
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: ((context) => BlocProvider<ProfileBloc>(
+                            //               create: (context) => ProfileBloc(state.admin),
+                            //               child: const UserProfile(),
+                            //             ))));
                           },
                           child: Image.network(
-                            (state).student.profilePic ?? defaultProfilePicUrl,
+                            (state).admin.profilePic ?? defaultProfilePicUrl,
                             fit: BoxFit.cover,
                           ),
                         );
@@ -92,16 +92,15 @@ class MyAppBar extends StatelessWidget implements PreferredSize {
             ),
           ),
           SizedBox(height: preferredSize.height * 0.12),
-          BlocBuilder<StudentDashboardBloc, StudentDashboardState>(
+          BlocBuilder<AdminBloc, AdminState>(
             builder: (context, state) {
-              if (state is StudentLoadedState) {
+              if (state is AdminLoadedState) {
                 return Padding(
                   padding: EdgeInsets.symmetric(horizontal: width * 0.04),
                   child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                     ConstrainedBox(
                         constraints: BoxConstraints(maxWidth: width * 0.4),
-                        child: Text(state.student.name,
-                            style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: Colors.white))),
+                        child: Text(state.admin.name, style: Theme.of(context).textTheme.headlineSmall)),
                     SizedBox(
                       width: width * 0.07,
                     ),
@@ -109,28 +108,37 @@ class MyAppBar extends StatelessWidget implements PreferredSize {
                       children: [
                         ConstrainedBox(
                           constraints: BoxConstraints(maxWidth: width * 0.4),
-                          child: Text("Viewed Courses",
-                              style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white)),
+                          child: Text("Total courses", style: Theme.of(context).textTheme.titleMedium),
                         ),
                         SizedBox(
                           height: _height * 0.04,
                         ),
-                        ConstrainedBox(
-                          constraints: BoxConstraints(maxWidth: width * 0.4),
-                          child: Row(
-                            children: [
-                              const Padding(
-                                padding: EdgeInsets.only(left: 8.0),
-                                child: Icon(
-                                  Icons.read_more,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              Text(state.student.lastViewedCourses.length.toString(),
-                                  style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: Colors.white))
-                            ],
-                          ),
-                        ),
+                        // BlocBuilder<CoursesBloc, CoursesState>(
+                        //   builder: (context, state) {
+                        //     if (state is CoursesLoadedState) {
+                        //       return ConstrainedBox(
+                        //         constraints: BoxConstraints(maxWidth: width * 0.4),
+                        //         child: Row(
+                        //           children: [
+                        //             const Padding(
+                        //               padding: EdgeInsets.only(left: 8.0),
+                        //               child: Icon(
+                        //                 Icons.read_more,
+                        //               ),
+                        //             ),
+                        //             Text(state.courses.length.toString(/*  */),
+                        //                 style: Theme.of(context).textTheme.headlineMedium),
+                        //           ],
+                        //         ),
+                        //       );
+                        //     } else {
+                        //       return BaseShimmerBox(
+                        //         width: width * 0.25,
+                        //         height: preferredSize.height * 0.10,
+                        //       );
+                        //     }
+                        //   },
+                        // ),
                       ],
                     ),
                   ]),
@@ -191,11 +199,11 @@ class MyAppBar extends StatelessWidget implements PreferredSize {
     return AppBar(
       backgroundColor: Colors.white,
       title: SizedBox(
-        child: BlocBuilder<StudentDashboardBloc, StudentDashboardState>(
+        child: BlocBuilder<AdminBloc, AdminState>(
           builder: (context, state) {
-            if (state is StudentLoadedState) {
+            if (state is AdminLoadedState) {
               return Image.network(
-                (state).student.profilePic ?? defaultProfilePicUrl,
+                (state).admin.profilePic ?? defaultProfilePicUrl,
                 fit: BoxFit.fill,
               );
             } else {

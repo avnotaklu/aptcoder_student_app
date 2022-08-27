@@ -1,7 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
-import 'package:aptcoder/features/student_dashboard/domain/entities/view_activity.dart';
+
 import 'package:equatable/equatable.dart';
+
+import 'package:aptcoder/features/student_dashboard/domain/entities/view_activity.dart';
 
 class NewStudent extends Student {
   // NOTE: should not be derived by model
@@ -46,6 +48,28 @@ class Student extends Equatable {
         sem,
         rollNo,
         profilePic,
-        lastViewedCourses,
+        ...lastViewedCourses,
       ];
+
+  Student copyWith({
+    String? uid,
+    String? name,
+    String? course,
+    String? institute,
+    int? sem,
+    int? rollNo,
+    String? profilePic,
+    List<ViewActivity>? lastViewedCourses,
+  }) {
+    return Student(
+      uid: uid ?? this.uid,
+      name: name ?? this.name,
+      course: course ?? this.course,
+      institute: institute ?? this.institute,
+      sem: sem ?? this.sem,
+      rollNo: rollNo ?? this.rollNo,
+      profilePic: profilePic ?? this.profilePic,
+      lastViewedCourses: lastViewedCourses ?? this.lastViewedCourses,
+    );
+  }
 }

@@ -14,24 +14,8 @@ class GetStudentInfo extends UseCase<Student, GetStudentParams> {
   Future<Either<Failure, Student>> call(GetStudentParams params) async {
     final user = params.user;
 
-    if (params.user.isNewUser) {
-      // Map User to Student Logic
-      final result = await repository.registerNewStudent(Student(
-          uid: user.uid,
-          name: user.displayName,
-          course: null,
-          institute: null,
-          sem: null,
-          rollNo: null,
-          profilePic: user.profilePic,
-          lastViewedCourses: const []));
-      return result.fold((l) => Left(l), (r) {
-        return Right(NewStudent.fromStudent(r));
-      });
-    } else {
-      final result = await repository.getStudentUser(params.user.uid);
-      return result;
-    }
+    final result = await repository.getStudentUser(params.user.uid);
+    return result;
   }
 }
 

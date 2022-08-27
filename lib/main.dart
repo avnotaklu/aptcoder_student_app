@@ -1,3 +1,5 @@
+import 'package:aptcoder/features/admin/presentation/bloc/admin_bloc.dart';
+import 'package:aptcoder/features/admin/presentation/pages/admin_panel.dart';
 import 'package:aptcoder/features/login/domain/entities/user.dart';
 import 'package:aptcoder/features/login/presentation/bloc/authentication_bloc.dart';
 import 'package:aptcoder/features/login/presentation/pages/student_login.dart';
@@ -15,7 +17,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.android);
   runApp(BlocProvider<AuthenticationBloc>(
-      lazy: false, create: (context) => sl<AuthenticationBloc>()..add(InitialAuthCheckEvent()), child: MyApp()));
+      lazy: false, create: (context) => AuthenticationBloc(sl(), sl(), sl())..add(InitialAuthCheckEvent()), child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -71,20 +73,18 @@ class MyApp extends StatelessWidget {
                         _navigator.pushAndRemoveUntil(
                             MaterialPageRoute(
                                 builder: ((context) => BlocProvider<StudentDashboardBloc>(
-                                    create: (context) => sl()..add(FetchStudentEvent()), child: const HomePage()))),
+                                    create: (context) => StudentDashboardBloc(context.read(), sl(), sl(), sl())
+                                      ..add(FetchStudentEvent()),
+                                    child: const HomePage()))),
                             (route) => false)
                       }
                     else
                       {
                         _navigator.pushAndRemoveUntil(
                             MaterialPageRoute(
-                                builder: ((context) => Scaffold(
-                                      body: Text("AuthorizedState as admin"),
-                                    ))),
-                            // BlocProvider<AdminBloc>(
-                            //     create: (context) =>
-                            //         AdminBloc(context.read<AuthenticationBloc>())..add(AddAdminEvent(state.user)),
-                            //     child: const AdminPanel()))),
+                                builder: ((context) => BlocProvider<AdminBloc>(
+                                    create: (context) => AdminBloc(context.read(), sl(), sl())..add(FetchAdminEvent()),
+                                    child: const AdminPanel()))),
                             (route) => false)
                       }
                   }

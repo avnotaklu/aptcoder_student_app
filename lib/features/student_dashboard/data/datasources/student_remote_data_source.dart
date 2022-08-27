@@ -1,14 +1,13 @@
-import 'package:aptcoder/features/student_dashboard/data/models/course.dart';
+import 'package:aptcoder/features/courses/data/models/course.dart';
 import 'package:aptcoder/features/student_dashboard/data/models/student.dart';
 import 'package:aptcoder/features/student_dashboard/data/models/view_activity.dart';
-import 'package:aptcoder/features/student_dashboard/domain/entities/course.dart';
+import 'package:aptcoder/features/courses/domain/entities/course.dart';
 import 'package:aptcoder/features/student_dashboard/domain/entities/student.dart';
 import 'package:aptcoder/features/student_dashboard/domain/entities/view_activity.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 abstract class StudentRemoteDataSource {
   Future<StudentModel> fetchStudent(String id);
-  Future<StudentModel> addStudent(Student student);
   Future<List<CourseModel>> getStudentLastViewedCourses(List<ViewActivity> activities);
   Future<void> addCourse(Student student, ViewActivity course);
 }
@@ -51,21 +50,6 @@ class StudentRemoteDataSourceImpl implements StudentRemoteDataSource {
   }
 
   @override
-  Future<StudentModel> addStudent(Student student) async {
-    final model = StudentModel(
-        uid: student.uid,
-        name: student.name,
-        course: student.course,
-        institute: student.institute,
-        sem: student.sem,
-        rollNo: student.rollNo,
-        profilePic: student.profilePic,
-        lastViewedCourses: student.lastViewedCourses);
-    await db.collection('students').add(model.toMap());
-    return model;
-  }
-
-  @override
   Future<StudentModel> fetchStudent(String id) async {
     final modelData = await db.collection('students').doc(id).get();
     return StudentModel.fromMap(modelData.data() as Map<String, dynamic>);
@@ -74,6 +58,6 @@ class StudentRemoteDataSourceImpl implements StudentRemoteDataSource {
   @override
   Future<List<CourseModel>> getStudentLastViewedCourses(List<ViewActivity> activities) async {
     return await Future.wait(activities.map((e) async =>
-        CourseModel.fromMap(await db.collection('courses').doc(e.resource).get() as Map<String, dynamic>)));
+        CourseModel.fromMap((await db.collection('courses').doc((e.resource)).get()).data() as Map<String, dynamic>)));
   }
 }

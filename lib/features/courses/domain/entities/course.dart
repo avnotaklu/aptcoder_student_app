@@ -1,8 +1,9 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
 enum CourseType { video, ppt, pdf }
 
-class Course {
+class Course extends Equatable {
   final String name;
   late final String id;
   final CourseType type;
@@ -18,4 +19,8 @@ class Course {
     required this.id,
     required this.resourceName,
   });
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [name, id, type, resourceUrl, resourceName, imageUrl];
 }

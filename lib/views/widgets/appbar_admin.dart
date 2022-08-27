@@ -1,6 +1,5 @@
-import 'package:aptcoder/bloc/admin/admin_bloc.dart';
-import 'package:aptcoder/bloc/authentication/authentication_bloc.dart';
-import 'package:aptcoder/bloc/courses/courses_bloc.dart';
+import 'package:aptcoder/features/admin/presentation/bloc/admin_bloc.dart';
+import 'package:aptcoder/features/login/presentation/bloc/authentication_bloc.dart';
 import 'package:aptcoder/service/constants.dart';
 import 'package:aptcoder/views/widgets/skeleton.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +29,7 @@ class AdminAppBar extends StatelessWidget implements PreferredSize {
             )),
             actions: [
               IconButton(
-                  onPressed: () => context.read<AuthenticationBloc>().add(LogoutEvent()),
+                  onPressed: () => context.read<AuthenticationBloc>(), // .add(LogoutEvent()),
                   icon: const Icon(
                     Icons.logout,
                     color: Colors.black,
@@ -114,32 +113,32 @@ class AdminAppBar extends StatelessWidget implements PreferredSize {
                         SizedBox(
                           height: _height * 0.04,
                         ),
-                        BlocBuilder<CoursesBloc, CoursesState>(
-                          builder: (context, state) {
-                            if (state is CoursesLoadedState) {
-                              return ConstrainedBox(
-                                constraints: BoxConstraints(maxWidth: width * 0.4),
-                                child: Row(
-                                  children: [
-                                    const Padding(
-                                      padding: EdgeInsets.only(left: 8.0),
-                                      child: Icon(
-                                        Icons.read_more,
-                                      ),
-                                    ),
-                                    Text(state.courses.length.toString(/*  */),
-                                        style: Theme.of(context).textTheme.headlineMedium),
-                                  ],
-                                ),
-                              );
-                            } else {
-                              return BaseShimmerBox(
-                                width: width * 0.25,
-                                height: preferredSize.height * 0.10,
-                              );
-                            }
-                          },
-                        ),
+                        // BlocBuilder<CoursesBloc, CoursesState>(
+                        //   builder: (context, state) {
+                        //     if (state is CoursesLoadedState) {
+                        //       return ConstrainedBox(
+                        //         constraints: BoxConstraints(maxWidth: width * 0.4),
+                        //         child: Row(
+                        //           children: [
+                        //             const Padding(
+                        //               padding: EdgeInsets.only(left: 8.0),
+                        //               child: Icon(
+                        //                 Icons.read_more,
+                        //               ),
+                        //             ),
+                        //             Text(state.courses.length.toString(/*  */),
+                        //                 style: Theme.of(context).textTheme.headlineMedium),
+                        //           ],
+                        //         ),
+                        //       );
+                        //     } else {
+                        //       return BaseShimmerBox(
+                        //         width: width * 0.25,
+                        //         height: preferredSize.height * 0.10,
+                        //       );
+                        //     }
+                        //   },
+                        // ),
                       ],
                     ),
                   ]),

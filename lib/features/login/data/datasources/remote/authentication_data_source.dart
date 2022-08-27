@@ -1,5 +1,7 @@
 import 'package:aptcoder/core/error/app_exception.dart';
 import 'package:aptcoder/features/login/domain/entities/user.dart';
+import 'package:aptcoder/features/student_dashboard/data/models/student.dart';
+import 'package:aptcoder/features/student_dashboard/domain/entities/student.dart';
 import 'package:aptcoder/service/constants.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
@@ -9,6 +11,10 @@ import 'package:google_sign_in/google_sign_in.dart';
 abstract class AuthenticationRemoteDataSource {
   Future<UserCredential> login();
   Future<Usertype> getUserType(creds);
+
+  Future<StudentModel> addStudent(Student student);
+
+  Future<void> logout();
 }
 
 class AuthenticationRemoteDataSourceImpl implements AuthenticationRemoteDataSource {
@@ -43,6 +49,27 @@ class AuthenticationRemoteDataSourceImpl implements AuthenticationRemoteDataSour
       }
     }
     throw UserNotFoundException();
+  }
+
+  @override
+  Future<StudentModel> addStudent(Student student) async {
+    final model = StudentModel(
+        uid: student.uid,
+        name: student.name,
+        course: student.course,
+        institute: student.institute,
+        sem: student.sem,
+        rollNo: student.rollNo,
+        profilePic: student.profilePic,
+        lastViewedCourses: student.lastViewedCourses);
+    await db.collection('students').doc(student.uid).set(model.toMap());
+    return model;
+  }
+
+  @override
+  Future<void> logout() async {
+    await _googleSignIn.signOut();
+    return await _auth.signOut();
   }
 }
 

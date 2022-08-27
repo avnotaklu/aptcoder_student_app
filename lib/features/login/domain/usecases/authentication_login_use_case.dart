@@ -20,6 +20,7 @@ class AuthenticationLoginUseCase implements UseCase<AuthUser, AuthenticationPara
     final user = await creds.fold<Future<Either<Failure, AuthUser>>>((Failure l) => Future.value(Left(l)),
         (UserCredential user) async {
       if (user.additionalUserInfo != null) {
+
         if (user.additionalUserInfo!.isNewUser == false) {
           final type = await repository.getUsertype(user);
 

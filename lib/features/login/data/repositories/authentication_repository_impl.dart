@@ -1,7 +1,9 @@
+import 'package:aptcoder/core/error/failures.dart';
 import 'package:aptcoder/features/login/data/datasources/remote/authentication_data_source.dart';
 import 'package:aptcoder/features/login/domain/entities/user.dart';
 import 'package:aptcoder/core/error/failures.dart';
 import 'package:aptcoder/features/login/domain/repositories/authentication_repository.dart';
+import 'package:aptcoder/features/student_dashboard/domain/entities/student.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -34,6 +36,25 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
       return Left(UserNotFound());
     } catch (e) {
       return Left(UnexpectedFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Student>> registerNewStudent(Student student) async {
+    try {
+      return Right((await remoteDataSource.addStudent(student)));
+    } catch (e) {
+      return Left(UnexpectedFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> logout() async {
+    try {
+      return Right(await remoteDataSource.logout());
+    } catch (e) {
+      return Left(UnexpectedFailure());
+      // TODO
     }
   }
 }

@@ -12,3 +12,7 @@ abstract class Failure extends Equatable {
 class UnexpectedFailure extends Failure {
   UnexpectedFailure() : super([]);
 }
+
+class NullFailure extends Failure {
+  NullFailure() : super([]);
+}

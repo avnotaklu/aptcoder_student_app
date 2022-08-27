@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:aptcoder/features/student_dashboard/domain/entities/course.dart';
+import 'package:aptcoder/features/courses/domain/entities/course.dart';
 import 'package:flutter/foundation.dart';
 
 @immutable

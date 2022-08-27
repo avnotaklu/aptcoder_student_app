@@ -3,7 +3,7 @@ import 'package:aptcoder/features/student_dashboard/data/core/exception.dart';
 import 'package:aptcoder/features/student_dashboard/data/datasources/student_remote_data_source.dart';
 import 'package:aptcoder/features/student_dashboard/domain/core/failures.dart';
 import 'package:aptcoder/features/student_dashboard/domain/entities/student.dart';
-import 'package:aptcoder/features/student_dashboard/domain/entities/course.dart';
+import 'package:aptcoder/features/courses/domain/entities/course.dart';
 import 'package:aptcoder/features/student_dashboard/domain/entities/view_activity.dart';
 import 'package:aptcoder/features/student_dashboard/domain/repositories/student_repository.dart';
 import 'package:dartz/dartz.dart';
@@ -32,14 +32,6 @@ class StudentRepositoryImpl implements StudentRepository {
     }
   }
 
-  @override
-  Future<Either<Failure, Student>> registerNewStudent(Student student) async {
-    try {
-      return Right((await dataSource.addStudent(student)));
-    } catch (e) {
-      return Left(UnexpectedFailure());
-    }
-  }
 
   @override
   Future<Either<Failure, void>> viewCourse(Student student, ViewActivity viewActivity) async {

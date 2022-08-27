@@ -20,5 +20,8 @@ class LoginRequestEvent extends AuthenticationEvent {
 class LoginEvent extends AuthenticationEvent {
   final Usertype type;
   LoginEvent(this.type) : super([type]);
-  
+}
+
+class LogoutEvent extends AuthenticationEvent {
+  LogoutEvent() : super([]);
 }
