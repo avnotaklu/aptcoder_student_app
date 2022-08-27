@@ -20,3 +20,4 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
     });
   }
 }
+/*  */

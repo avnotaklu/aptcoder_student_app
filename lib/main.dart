@@ -1,21 +1,21 @@
-import 'package:aptcoder/bloc/admin/admin_bloc.dart';
-import 'package:aptcoder/bloc/authentication/authentication_bloc.dart';
-import 'package:aptcoder/bloc/student/student_bloc.dart';
+import 'package:aptcoder/features/login/domain/entities/user.dart';
+import 'package:aptcoder/features/login/presentation/bloc/authentication_bloc.dart';
+import 'package:aptcoder/features/login/presentation/pages/student_login.dart';
+import 'package:aptcoder/features/student_dashboard/presentation/bloc/student_dashboard_bloc.dart';
+import 'package:aptcoder/features/student_dashboard/presentation/pages/homepage.dart';
 import 'package:aptcoder/firebase_options.dart';
+import 'package:aptcoder/injection_container.dart';
 import 'package:aptcoder/service/constants.dart';
-import 'package:aptcoder/service/user.dart';
-import 'package:aptcoder/views/admin_panel.dart';
-import 'package:aptcoder/views/homepage.dart';
-import 'package:aptcoder/views/student_login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() async {
+  init();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.android);
   runApp(BlocProvider<AuthenticationBloc>(
-      lazy: false, create: (context) => AuthenticationBloc()..add(InitialAuthCheckEvent()), child: MyApp()));
+      lazy: false, create: (context) => sl<AuthenticationBloc>()..add(InitialAuthCheckEvent()), child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -66,45 +66,46 @@ class MyApp extends StatelessWidget {
                   }
                 else if (state is AuthorizedState)
                   {
-                    if (state.type == Usertype.student)
+                    if (state.user.type == Usertype.student)
                       {
                         _navigator.pushAndRemoveUntil(
                             MaterialPageRoute(
-                                builder: ((context) => BlocProvider<StudentBloc>(
-                                    create: (context) =>
-                                        StudentBloc(context.read<AuthenticationBloc>())..add(FetchStudentEvent()),
-                                    child: const HomePage()))),
+                                builder: ((context) => BlocProvider<StudentDashboardBloc>(
+                                    create: (context) => sl()..add(FetchStudentEvent()), child: const HomePage()))),
                             (route) => false)
                       }
                     else
                       {
                         _navigator.pushAndRemoveUntil(
                             MaterialPageRoute(
-                                builder: ((context) => BlocProvider<AdminBloc>(
-                                    create: (context) =>
-                                        AdminBloc(context.read<AuthenticationBloc>())..add(AddAdminEvent(state.user)),
-                                    child: const AdminPanel()))),
+                                builder: ((context) => Scaffold(
+                                      body: Text("AuthorizedState as admin"),
+                                    ))),
+                            // BlocProvider<AdminBloc>(
+                            //     create: (context) =>
+                            //         AdminBloc(context.read<AuthenticationBloc>())..add(AddAdminEvent(state.user)),
+                            //     child: const AdminPanel()))),
                             (route) => false)
                       }
                   }
-                else if (state is NewUserAuthenticated && state.type == Usertype.student)
-                  {
-                    _navigator.pushAndRemoveUntil(
-                        MaterialPageRoute(
-                            builder: ((context) => BlocProvider<StudentBloc>(
-                                create: (context) =>
-                                    StudentBloc(context.read<AuthenticationBloc>())..add(AddStudentEvent(state.user)),
-                                child: const HomePage()))),
-                        (route) => false)
-                  }
-                else if (state is NewUserAuthenticated && state.type == Usertype.admin)
-                  _navigator.pushAndRemoveUntil(
-                      MaterialPageRoute(
-                          builder: ((context) => BlocProvider<AdminBloc>(
-                              create: (context) =>
-                                  AdminBloc(context.read<AuthenticationBloc>())..add(AddAdminEvent(state.user)),
-                              child: const AdminPanel()))),
-                      (route) => false)
+                // else if (state is NewUserAuthenticated && state.type == Usertype.student)
+                //   {
+                //     _navigator.pushAndRemoveUntil(
+                //         MaterialPageRoute(
+                //             builder: ((context) => BlocProvider<StudentBloc>(
+                //                 create: (context) =>
+                //                     StudentBloc(context.read<AuthenticationBloc>())..add(AddStudentEvent(state.user)),
+                //                 child: const HomePage()))),
+                //         (route) => false)
+                //   }
+                // else if (state is NewUserAuthenticated && state.type == Usertype.admin)
+                //   _navigator.pushAndRemoveUntil(
+                //       MaterialPageRoute(
+                //           builder: ((context) => BlocProvider<AdminBloc>(
+                //               create: (context) =>
+                //                   AdminBloc(context.read<AuthenticationBloc>())..add(AddAdminEvent(state.user)),
+                //               child: const AdminPanel()))),
+                //       (route) => false)
               }),
           child: child)),
       onGenerateRoute: (_) => MaterialPageRoute(builder: ((context) => const StudentLoginPage())),

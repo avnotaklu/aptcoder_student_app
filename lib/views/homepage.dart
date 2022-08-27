@@ -4,7 +4,7 @@ import 'package:aptcoder/bloc/student/student_bloc.dart';
 import 'package:aptcoder/service/constants.dart';
 import 'package:aptcoder/service/picker_service.dart';
 import 'package:aptcoder/views/widgets/appbar.dart';
-import 'package:aptcoder/views/widgets/error.dart';
+import 'package:aptcoder/core/error/widgets/error.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -29,17 +29,19 @@ class HomePage extends StatelessWidget {
         }),
         builder: ((context, state) {
           if (state is StudentInitial) {
-            return const LoadingWidget();
+            return Center(child: const LoadingWidget());
           }
           if (state is NewStudentCreatingState) {
-            return Column(
-              children: [
-                Text(
-                  "Creating your profile",
-                  style: Theme.of(context).textTheme.headlineLarge,
-                ),
-                const LoadingWidget()
-              ],
+            return Center(
+              child: Column(
+                children: [
+                  Text(
+                    "Creating your profile",
+                    style: Theme.of(context).textTheme.headlineLarge,
+                  ),
+                  const LoadingWidget()
+                ],
+              ),
             );
           }
           if (state is StudentLoadedState) {

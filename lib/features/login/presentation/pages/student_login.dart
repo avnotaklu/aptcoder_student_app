@@ -1,14 +1,13 @@
-import 'package:aptcoder/bloc/authentication/authentication_bloc.dart';
+import 'package:aptcoder/core/error/widgets/error.dart';
+import 'package:aptcoder/features/login/domain/entities/user.dart';
+import 'package:aptcoder/features/login/presentation/bloc/authentication_bloc.dart';
 import 'package:aptcoder/service/constants.dart';
-import 'package:aptcoder/service/user.dart';
-import 'package:aptcoder/views/student_login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'admin_login.dart';
 
-import '../core/error/widgets/error.dart';
-
-class AdminLoginPage extends StatelessWidget {
-  const AdminLoginPage({Key? key}) : super(key: key);
+class StudentLoginPage extends StatelessWidget {
+  const StudentLoginPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,14 +30,7 @@ class AdminLoginPage extends StatelessWidget {
           }
         },
         builder: ((context, state) {
-          if (state is LoginProgressState) {
-            return const Scaffold(
-              body: LoadingWidget(),
-            );
-          }
-          if (state is AuthenticationInitialState) {
-            return const LoadingWidget();
-          } else {
+          if (state is AuthorizationPromptState || state is UnAuthorizedState || state is LogoutState) {
             return Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,7 +41,7 @@ class AdminLoginPage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 8),
                   child: Text(
-                    "Admin  Login",
+                    "Student  Login",
                     style: Theme.of(context).textTheme.headlineLarge,
                     textAlign: TextAlign.center,
                   ),
@@ -62,7 +54,7 @@ class AdminLoginPage extends StatelessWidget {
                       height: height * 0.4,
                       width: width * 0.8,
                       child: Image.asset(
-                        "assets/images/admin.jpg",
+                        "assets/images/student.jpg",
                         fit: BoxFit.fill,
                       )),
                 ),
@@ -78,7 +70,7 @@ class AdminLoginPage extends StatelessWidget {
                             height * 0.05,
                           )),
                           elevation: MaterialStateProperty.all(0)),
-                      onPressed: () => authBloc.add(LoginRequestedEvent(Usertype.admin)),
+                      onPressed: () => authBloc.add(LoginRequestEvent(Usertype.student)),
                       child: const Text(
                         "Login with google",
                       )),
@@ -96,10 +88,14 @@ class AdminLoginPage extends StatelessWidget {
                           )),
                           elevation: MaterialStateProperty.all(0)),
                       onPressed: () => Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(builder: (context) => const StudentLoginPage()), (route) => false),
-                      child: const Text("Login as student")),
+                          MaterialPageRoute(builder: (context) => const AdminLoginPage()), (route) => false),
+                      child: const Text("Login as admin")),
                 ),
               ],
+            );
+          } else {
+            return const Scaffold(
+              body: LoadingWidget(),
             );
           }
         }),

@@ -9,7 +9,7 @@ import 'package:aptcoder/views/widgets/skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'widgets/error.dart';
+import '../core/error/widgets/error.dart';
 
 class AdminPanel extends StatelessWidget {
   const AdminPanel({Key? key}) : super(key: key);

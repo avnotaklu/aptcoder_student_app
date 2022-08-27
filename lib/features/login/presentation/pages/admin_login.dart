@@ -1,11 +1,10 @@
-import 'package:aptcoder/bloc/authentication/authentication_bloc.dart';
+import 'package:aptcoder/core/error/widgets/error.dart';
+import 'package:aptcoder/features/login/domain/entities/user.dart';
+import 'package:aptcoder/features/login/presentation/bloc/authentication_bloc.dart';
 import 'package:aptcoder/service/constants.dart';
-import 'package:aptcoder/service/user.dart';
 import 'package:aptcoder/views/student_login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../core/error/widgets/error.dart';
 
 class AdminLoginPage extends StatelessWidget {
   const AdminLoginPage({Key? key}) : super(key: key);
@@ -78,7 +77,7 @@ class AdminLoginPage extends StatelessWidget {
                             height * 0.05,
                           )),
                           elevation: MaterialStateProperty.all(0)),
-                      onPressed: () => authBloc.add(LoginRequestedEvent(Usertype.admin)),
+                      onPressed: () => authBloc.add(LoginRequestEvent(Usertype.admin)),
                       child: const Text(
                         "Login with google",
                       )),

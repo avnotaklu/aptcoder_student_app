@@ -124,11 +124,12 @@ class ProfileEditPrompt extends StatelessWidget {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
+                  
                   GestureDetector(
                       onTap: () {
                         context.read<ProfileBloc>().add(CancelUpdateMode(state.student));
                       },
-                      child: const Icon(color: Colors.red, size: 24, Icons.cancel)),
+                      child: Icon(color: Colors.red, size: 24, Icons.cancel)),
                   GestureDetector(
                       onTap: () {
                         showDialog(
@@ -156,7 +157,7 @@ class ProfileEditPrompt extends StatelessWidget {
                           },
                         );
                       },
-                      child: const Icon(color: primaryColor, size: 24, Icons.check)),
+                      child: Icon(color: primaryColor, size: 24, Icons.check)),
                 ],
               );
             }
