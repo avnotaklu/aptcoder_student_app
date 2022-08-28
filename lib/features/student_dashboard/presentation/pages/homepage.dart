@@ -5,7 +5,6 @@ import 'package:aptcoder/features/student_dashboard/presentation/bloc/student_da
 import 'package:aptcoder/features/student_dashboard/presentation/widgets/appbar.dart';
 import 'package:aptcoder/core/injection_container.dart';
 import 'package:aptcoder/core/constants.dart';
-import 'package:aptcoder/service/picker_service.dart';
 import 'package:aptcoder/core/error/widgets/error.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -84,8 +83,7 @@ class HomePage extends StatelessWidget {
                                       context
                                           .read<StudentDashboardBloc>()
                                           .add(StudentViewCourse(state.student, course));
-                                      await FileService.openfile(
-                                          url: course.resourceUrl, filename: course.resourceName);
+                                    
                                     },
                                     child: Container(
                                       padding: const EdgeInsets.symmetric(horizontal: 6),
@@ -262,8 +260,7 @@ class HomePage extends StatelessWidget {
                                                   .read<StudentDashboardBloc>()
                                                   .add(StudentViewCourse(state.student, course));
                                             }
-                                            FileService.openfile(
-                                                url: course.resourceUrl, filename: course.resourceName);
+                                        
                                           },
                                           child: Container(
                                             margin: const EdgeInsets.only(bottom: 8),

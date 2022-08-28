@@ -37,7 +37,6 @@ class AuthenticationRemoteDataSourceImpl implements AuthenticationRemoteDataSour
       );
       return await _auth.signInWithCredential(credential);
     } catch (e) {
-      // TODO: write custom exceptions
       throw UserNotFoundException();
     }
   }

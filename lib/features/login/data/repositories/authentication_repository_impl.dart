@@ -57,7 +57,6 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
       return Right(await remoteDataSource.logout());
     } catch (e) {
       return Left(UnexpectedFailure());
-      // TODO
     }
   }
 

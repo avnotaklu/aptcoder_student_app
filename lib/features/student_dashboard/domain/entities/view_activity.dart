@@ -13,6 +13,5 @@ class ViewActivity extends Equatable {
   const ViewActivity(this.resource, this.time);
 
   @override
-  // TODO: implement props
   List<Object?> get props => [resource, time];
 }

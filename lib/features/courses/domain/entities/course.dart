@@ -21,6 +21,5 @@ class Course extends Equatable {
   });
 
   @override
-  // TODO: implement props
   List<Object?> get props => [name, id, type, resourceUrl, resourceName, imageUrl];
 }

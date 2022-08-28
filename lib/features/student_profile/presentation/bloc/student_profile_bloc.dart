@@ -1,10 +1,10 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:aptcoder/core/service/picker_service.dart';
 import 'package:aptcoder/features/student_dashboard/domain/entities/student.dart';
 import 'package:aptcoder/features/student_dashboard/presentation/bloc/student_dashboard_bloc.dart';
 import 'package:aptcoder/features/student_profile/domain/usecases/update_profile_info.dart';
-import 'package:aptcoder/service/picker_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -42,7 +42,6 @@ class StudentProfileBloc extends Bloc<StudentProfileEvent, StudentProfileState> 
       if (event is EditProfile) {
         emit(EditProfileState(event.label, event.student));
       }
-
 
       if (event is CancelUpdateMode) {
         emit(StudentProfileInitial(event.student));

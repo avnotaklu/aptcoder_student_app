@@ -2,14 +2,14 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:aptcoder/core/error/failures.dart';
+import 'package:aptcoder/core/service/picker_service.dart';
 import 'package:aptcoder/features/admin/domain/entities/admin.dart';
 import 'package:aptcoder/features/admin/domain/usecases/add_course.dart';
 import 'package:aptcoder/features/admin/domain/usecases/get_admin_info.dart';
 import 'package:aptcoder/features/courses/domain/entities/course.dart';
 import 'package:aptcoder/features/login/presentation/bloc/authentication_bloc.dart';
-import 'package:aptcoder/service/picker_service.dart';
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'admin_event.dart';
 part 'admin_state.dart';

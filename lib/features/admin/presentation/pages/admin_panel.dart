@@ -49,10 +49,12 @@ class AdminPanel extends StatelessWidget {
             if (state is AdminInitial && state.creatingNewStudent) {
               return Center(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Creating your profile",
-                      style: Theme.of(context).textTheme.headlineLarge,
+                      "Welcome \n Getting your profile ready",
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.headlineSmall,
                     ),
                     const LoadingWidget()
                   ],
@@ -75,7 +77,6 @@ class AdminPanel extends StatelessWidget {
                       padding: const EdgeInsets.all(16.0),
                       child: ElevatedButton(
                         onPressed: () async {
-                          // TODO: handle commented out  and added event
                           final bloc = context.read<AdminBloc>()..add(AdminAddingCoursesEvent());
                           final nameController = TextEditingController();
                           await showDialog(
@@ -213,7 +214,9 @@ class AdminPanel extends StatelessWidget {
                                                             ),
                                                             child: const Text("Cancel"),
                                                           ),
-                                                          SizedBox(width: width* 0.1,),
+                                                          SizedBox(
+                                                            width: width * 0.1,
+                                                          ),
                                                           ElevatedButton(
                                                             onPressed: () {
                                                               context.read<AdminBloc>().add(CreateCourseRequestedEvent(
