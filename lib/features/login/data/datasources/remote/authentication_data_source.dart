@@ -1,9 +1,9 @@
 import 'package:aptcoder/core/error/app_exception.dart';
+import 'package:aptcoder/features/login/data/core/exception.dart';
 import 'package:aptcoder/features/login/domain/entities/user.dart';
 import 'package:aptcoder/features/student_dashboard/data/models/student.dart';
 import 'package:aptcoder/features/student_dashboard/domain/entities/student.dart';
 import 'package:aptcoder/service/constants.dart';
-import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -15,6 +15,9 @@ abstract class AuthenticationRemoteDataSource {
   Future<StudentModel> addStudent(Student student);
 
   Future<void> logout();
+
+  Future<User> getInitialUser();
+  Future<Usertype> getCurrentUserType(User user);
 }
 
 class AuthenticationRemoteDataSourceImpl implements AuthenticationRemoteDataSource {
@@ -71,8 +74,26 @@ class AuthenticationRemoteDataSourceImpl implements AuthenticationRemoteDataSour
     await _googleSignIn.signOut();
     return await _auth.signOut();
   }
+
+  Future<User> getInitialUser() async {
+    final user = _auth.currentUser;
+    if (user == null) {
+      throw UserNotFoundException();
+    }
+    return user;
+  }
+
+  @override
+  Future<Usertype> getCurrentUserType(User user) async {
+    final usertype = (await db.collection('admins').doc(user.uid).get()).exists
+        ? Usertype.admin
+        : (await db.collection('students').doc(user.uid).get()).exists
+            ? Usertype.student
+            : null;
+    if (usertype == null) {
+      throw InvalidUserException();
+    }
+    return usertype;
+  }
 }
 
-class UserNotFoundException extends AppException {}
-
-class UnexpectedException extends AppException {}

@@ -13,12 +13,12 @@ class AddCourse extends UseCase<void, AddCourseParams> {
   @override
   Future<Either<Failure, void>> call(AddCourseParams params) async {
     // If any field is null Fail
-    if (params.image == null) Left(NullFailure());
-    if (params.resource == null) Left(NullFailure());
-    if (params.name == null) Left(NullFailure());
-    if (params.type == null) Left(NullFailure());
-    if (params.imageName == null) Left(NullFailure());
-    if (params.filename == null) Left(NullFailure());
+    if (params.image == null) return Left(NullFailure());
+    if (params.resource == null) return Left(NullFailure());
+    if (params.name == null) return Left(NullFailure());
+    if (params.type == null) return Left(NullFailure());
+    if (params.imageName == null) return Left(NullFailure());
+    if (params.filename == null) return Left(NullFailure());
     final id = Uuid().v1();
 
     final image = await repository.putCourseImage(
@@ -37,7 +37,7 @@ class AddCourse extends UseCase<void, AddCourseParams> {
             resourceName: params.filename!,
             id: Uuid().v1());
 
-        return repository.addCourse(course);
+        return await repository.addCourse(course);
       });
     });
   }

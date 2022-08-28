@@ -13,6 +13,5 @@ class AuthUser extends Equatable {
   AuthUser(this.displayName, this.email, this.isNewUser, this.type,this.uid, this.profilePic);
 
   @override
-  // TODO: implement props
   List<Object?> get props => [displayName, email, isNewUser, type];
 }

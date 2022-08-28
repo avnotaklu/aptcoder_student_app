@@ -11,6 +11,5 @@ class LogoutUseCase extends UseCase<void, EmptyParams> {
   @override
   Future<Either<Failure, void>> call(EmptyParams params) {
     return repository.logout();
-
   }
 }

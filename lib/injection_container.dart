@@ -14,6 +14,7 @@ import 'package:aptcoder/features/login/data/repositories/authentication_reposit
 import 'package:aptcoder/features/login/domain/repositories/authentication_repository.dart';
 import 'package:aptcoder/features/login/domain/usecases/add_student_info.dart';
 import 'package:aptcoder/features/login/domain/usecases/authentication_login_use_case.dart';
+import 'package:aptcoder/features/login/domain/usecases/autologin_usecase.dart';
 import 'package:aptcoder/features/login/domain/usecases/logout_use_case.dart';
 import 'package:aptcoder/features/login/presentation/bloc/authentication_bloc.dart';
 import 'package:aptcoder/features/student_dashboard/data/datasources/student_remote_data_source.dart';
@@ -44,6 +45,7 @@ void init() {
   sl.registerLazySingleton(() => Dio());
   sl.registerLazySingleton(() => AddStudentInfo(sl()));
   sl.registerLazySingleton(() => LogoutUseCase(sl()));
+  sl.registerLazySingleton(() => AutoLoginUseCase(sl()));
 
   sl.registerLazySingleton(() => GetStudentInfo(sl()));
   sl.registerLazySingleton(() => GetStudentLastCourses(sl()));

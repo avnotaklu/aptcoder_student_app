@@ -17,7 +17,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.android);
   runApp(BlocProvider<AuthenticationBloc>(
-      lazy: false, create: (context) => AuthenticationBloc(sl(), sl(), sl())..add(InitialAuthCheckEvent()), child: MyApp()));
+      lazy: false, create: (context) => AuthenticationBloc(sl(), sl(), sl(),sl())..add(InitialAuthCheckEvent()), child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {

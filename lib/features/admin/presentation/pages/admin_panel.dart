@@ -106,9 +106,9 @@ class AdminPanel extends StatelessWidget {
                                               if (state is CoursesCreateSuccessState) {
                                                 Navigator.of(context).pop();
                                               }
-                                              if (state is CreateCourseInProgress) {
-                                                Navigator.of(context).pop();
-                                              }
+                                              // if (state is CreateCourseInProgress) {
+                                              //   Navigator.of(context).pop();
+                                              // }
                                               if (state is CoursesCreateFailureState) {
                                                 Navigator.of(context).pop();
 
@@ -213,6 +213,7 @@ class AdminPanel extends StatelessWidget {
                                                             ),
                                                             child: const Text("Cancel"),
                                                           ),
+                                                          SizedBox(width: width* 0.1,),
                                                           ElevatedButton(
                                                             onPressed: () {
                                                               context.read<AdminBloc>().add(CreateCourseRequestedEvent(
@@ -237,6 +238,10 @@ class AdminPanel extends StatelessWidget {
                                                       ),
                                                     )
                                                   ],
+                                                );
+                                              } else if (state is CreateCourseInProgress) {
+                                                return const Center(
+                                                  child: LoadingWidget(),
                                                 );
                                               } else {
                                                 return const SizedBox.shrink();

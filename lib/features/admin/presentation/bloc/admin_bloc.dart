@@ -40,7 +40,7 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
         value.fold((l) {
           String error = "Unexpected Error";
           if (l is NullFailure) {
-            "Please Enter all fields";
+            error = "Please Enter all fields";
           }
           emit(CoursesCreateFailureState(admin, error));
         }, (r) {

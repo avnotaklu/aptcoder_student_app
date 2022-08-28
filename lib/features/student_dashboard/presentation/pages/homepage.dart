@@ -35,7 +35,8 @@ class HomePage extends StatelessWidget {
             return Column(
               children: [
                 Text(
-                  "Welcome \nyour profile has been created",
+                  "Welcome \n Getting your profile ready",
+                  textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.headlineMedium,
                 ),
                 const LoadingWidget()

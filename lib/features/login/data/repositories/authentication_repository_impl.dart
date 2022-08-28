@@ -1,5 +1,7 @@
 import 'package:aptcoder/core/error/failures.dart';
+import 'package:aptcoder/features/login/data/core/exception.dart';
 import 'package:aptcoder/features/login/data/datasources/remote/authentication_data_source.dart';
+import 'package:aptcoder/features/login/domain/core/failure.dart';
 import 'package:aptcoder/features/login/domain/entities/user.dart';
 import 'package:aptcoder/core/error/failures.dart';
 import 'package:aptcoder/features/login/domain/repositories/authentication_repository.dart';
@@ -7,6 +9,7 @@ import 'package:aptcoder/features/student_dashboard/domain/entities/student.dart
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class AuthenticationRepositoryImpl implements AuthenticationRepository {
   final AuthenticationRemoteDataSource remoteDataSource;
@@ -57,9 +60,27 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
       // TODO
     }
   }
+
+  @override
+  Future<Either<Failure, User>> getCurrentUser() async {
+    try {
+      final user = await remoteDataSource.getInitialUser();
+      return Right(user);
+    } on UserNotFoundException catch (e) {
+      return Left(UserNotFound());
+    } catch (e) {
+      return Left(UnexpectedFailure());
+    }
+  }
+
+  Future<Either<Failure, Usertype>> getUserType(User user) async {
+    try {
+      return Right(await remoteDataSource.getCurrentUserType(user));
+    } on InvalidUserException catch (e) {
+      return Left(InvalidUser());
+    } catch (e) {
+      return Left(UnexpectedFailure());
+    }
+  }
 }
 
-// TODO: find correct place to put failures
-class UserNotFound extends Failure {
-  UserNotFound() : super([]);
-}

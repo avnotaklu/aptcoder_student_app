@@ -29,7 +29,7 @@ class AdminAppBar extends StatelessWidget implements PreferredSize {
             )),
             actions: [
               IconButton(
-                  onPressed: () => context.read<AuthenticationBloc>(), // .add(LogoutEvent()),
+                  onPressed: () => context.read<AuthenticationBloc>().add(LogoutEvent()),
                   icon: const Icon(
                     Icons.logout,
                     color: Colors.black,
