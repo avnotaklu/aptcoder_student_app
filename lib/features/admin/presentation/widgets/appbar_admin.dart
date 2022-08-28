@@ -1,7 +1,8 @@
+import 'package:aptcoder/core/widgets/skeleton.dart';
 import 'package:aptcoder/features/admin/presentation/bloc/admin_bloc.dart';
+import 'package:aptcoder/features/courses/presentation/bloc/courses_bloc.dart';
 import 'package:aptcoder/features/login/presentation/bloc/authentication_bloc.dart';
-import 'package:aptcoder/service/constants.dart';
-import 'package:aptcoder/views/widgets/skeleton.dart';
+import 'package:aptcoder/core/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -42,10 +43,6 @@ class AdminAppBar extends StatelessWidget implements PreferredSize {
                       text: TextSpan(children: [
                     TextSpan(text: "Your Dashboard", style: Theme.of(context).textTheme.headlineMedium),
                   ]));
-                  // return Text(
-                  //   "Welcome ${state.Admin.name}",
-                  //   style: Theme.of(context).textTheme.titleSmall,
-                  // );
                 } else {
                   return BaseShimmerBox(
                     width: width * 0.6,
@@ -65,20 +62,9 @@ class AdminAppBar extends StatelessWidget implements PreferredSize {
                   child: BlocBuilder<AdminBloc, AdminState>(
                     builder: (context, state) {
                       if (state is AdminLoadedState) {
-                        return GestureDetector(
-                          onTap: () {
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: ((context) => BlocProvider<ProfileBloc>(
-                            //               create: (context) => ProfileBloc(state.admin),
-                            //               child: const UserProfile(),
-                            //             ))));
-                          },
-                          child: Image.network(
-                            (state).admin.profilePic ?? defaultProfilePicUrl,
-                            fit: BoxFit.cover,
-                          ),
+                        return Image.network(
+                          (state).admin.profilePic ?? defaultProfilePicUrl,
+                          fit: BoxFit.cover,
                         );
                       } else {
                         return BaseShimmerBox(
@@ -113,32 +99,32 @@ class AdminAppBar extends StatelessWidget implements PreferredSize {
                         SizedBox(
                           height: _height * 0.04,
                         ),
-                        // BlocBuilder<CoursesBloc, CoursesState>(
-                        //   builder: (context, state) {
-                        //     if (state is CoursesLoadedState) {
-                        //       return ConstrainedBox(
-                        //         constraints: BoxConstraints(maxWidth: width * 0.4),
-                        //         child: Row(
-                        //           children: [
-                        //             const Padding(
-                        //               padding: EdgeInsets.only(left: 8.0),
-                        //               child: Icon(
-                        //                 Icons.read_more,
-                        //               ),
-                        //             ),
-                        //             Text(state.courses.length.toString(/*  */),
-                        //                 style: Theme.of(context).textTheme.headlineMedium),
-                        //           ],
-                        //         ),
-                        //       );
-                        //     } else {
-                        //       return BaseShimmerBox(
-                        //         width: width * 0.25,
-                        //         height: preferredSize.height * 0.10,
-                        //       );
-                        //     }
-                        //   },
-                        // ),
+                        BlocBuilder<CoursesBloc, CoursesState>(
+                          builder: (context, state) {
+                            if (state is CoursesLoadedState) {
+                              return ConstrainedBox(
+                                constraints: BoxConstraints(maxWidth: width * 0.4),
+                                child: Row(
+                                  children: [
+                                    const Padding(
+                                      padding: EdgeInsets.only(left: 8.0),
+                                      child: Icon(
+                                        Icons.read_more,
+                                      ),
+                                    ),
+                                    Text(state.courses.length.toString(/*  */),
+                                        style: Theme.of(context).textTheme.headlineMedium),
+                                  ],
+                                ),
+                              );
+                            } else {
+                              return BaseShimmerBox(
+                                width: width * 0.25,
+                                height: preferredSize.height * 0.10,
+                              );
+                            }
+                          },
+                        ),
                       ],
                     ),
                   ]),

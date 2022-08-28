@@ -1,7 +1,7 @@
 import 'package:aptcoder/core/error/widgets/error.dart';
 import 'package:aptcoder/features/login/domain/entities/user.dart';
 import 'package:aptcoder/features/login/presentation/bloc/authentication_bloc.dart';
-import 'package:aptcoder/service/constants.dart';
+import 'package:aptcoder/core/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'admin_login.dart';
@@ -92,6 +92,22 @@ class StudentLoginPage extends StatelessWidget {
                       child: const Text("Login as admin")),
                 ),
               ],
+            );
+          } else if (state is LoginProgressState || state is AuthenticationInitialState) {
+            return Scaffold(
+              body: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "trying to \n Log you in",
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.headlineSmall!.copyWith(height: 1.2),
+                    ),
+                    const LoadingWidget(),
+                  ],
+                ),
+              ),
             );
           } else {
             return const Scaffold(

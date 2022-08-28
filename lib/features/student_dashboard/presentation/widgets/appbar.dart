@@ -1,9 +1,9 @@
+import 'package:aptcoder/core/widgets/skeleton.dart';
 import 'package:aptcoder/features/student_dashboard/presentation/bloc/student_dashboard_bloc.dart';
 import 'package:aptcoder/features/student_profile/presentation/bloc/student_profile_bloc.dart';
 import 'package:aptcoder/features/student_profile/presentation/pages/user_profile.dart';
-import 'package:aptcoder/injection_container.dart';
-import 'package:aptcoder/service/constants.dart';
-import 'package:aptcoder/views/widgets/skeleton.dart';
+import 'package:aptcoder/core/injection_container.dart';
+import 'package:aptcoder/core/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

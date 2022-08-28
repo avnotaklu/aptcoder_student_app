@@ -1,13 +1,13 @@
 import 'package:aptcoder/core/error/widgets/error.dart';
+import 'package:aptcoder/core/widgets/skeleton.dart';
 import 'package:aptcoder/features/admin/domain/entities/admin.dart';
 import 'package:aptcoder/features/admin/presentation/bloc/admin_bloc.dart';
 import 'package:aptcoder/features/admin/presentation/widgets/appbar_admin.dart';
 import 'package:aptcoder/features/courses/domain/entities/course.dart';
 import 'package:aptcoder/features/courses/presentation/bloc/courses_bloc.dart';
 import 'package:aptcoder/features/login/presentation/bloc/authentication_bloc.dart';
-import 'package:aptcoder/injection_container.dart';
-import 'package:aptcoder/service/constants.dart';
-import 'package:aptcoder/views/widgets/skeleton.dart';
+import 'package:aptcoder/core/injection_container.dart';
+import 'package:aptcoder/core/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

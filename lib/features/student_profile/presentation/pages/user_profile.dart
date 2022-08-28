@@ -1,7 +1,7 @@
 import 'package:aptcoder/features/login/presentation/bloc/authentication_bloc.dart';
 import 'package:aptcoder/features/student_profile/presentation/bloc/student_profile_bloc.dart';
 import 'package:aptcoder/features/student_profile/presentation/widgets/profile_edit_tile.dart';
-import 'package:aptcoder/service/constants.dart';
+import 'package:aptcoder/core/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

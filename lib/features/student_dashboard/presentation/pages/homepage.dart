@@ -1,12 +1,12 @@
+import 'package:aptcoder/core/widgets/skeleton.dart';
 import 'package:aptcoder/features/courses/presentation/bloc/courses_bloc.dart';
 import 'package:aptcoder/features/login/presentation/bloc/authentication_bloc.dart';
 import 'package:aptcoder/features/student_dashboard/presentation/bloc/student_dashboard_bloc.dart';
 import 'package:aptcoder/features/student_dashboard/presentation/widgets/appbar.dart';
-import 'package:aptcoder/injection_container.dart';
-import 'package:aptcoder/service/constants.dart';
+import 'package:aptcoder/core/injection_container.dart';
+import 'package:aptcoder/core/constants.dart';
 import 'package:aptcoder/service/picker_service.dart';
 import 'package:aptcoder/core/error/widgets/error.dart';
-import 'package:aptcoder/views/widgets/skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -29,25 +29,28 @@ class HomePage extends StatelessWidget {
         }),
         builder: ((context, state) {
           if (state is StudentDashboardInitial && state.creatingNewStudent == false) {
-            return const LoadingWidget();
+            return Center(child: const LoadingWidget());
           }
           if (state is StudentDashboardInitial && state.creatingNewStudent == true) {
-            return Column(
-              children: [
-                Text(
-                  "Welcome \n Getting your profile ready",
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headlineMedium,
-                ),
-                const LoadingWidget()
-              ],
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Welcome \n Getting your profile ready",
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                  const LoadingWidget()
+                ],
+              ),
             );
           }
           if (state is StudentLoadedState) {
             return SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
                     height: height * 0.01,
@@ -55,101 +58,112 @@ class HomePage extends StatelessWidget {
                   SizedBox(
                     height: height * 0.02,
                   ),
-                  SizedBox(
-                    height: height * 0.35,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            "Activity",
-                            style: Theme.of(context).textTheme.headlineMedium,
+                  if (state.student.lastViewedCourses.isNotEmpty)
+                    SizedBox(
+                      height: height * 0.35,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              "Activity",
+                              style: Theme.of(context).textTheme.headlineMedium,
+                            ),
                           ),
-                        ),
-                        if (state is StudentLoadedState)
-                          if (state.student.lastViewedCourses.isNotEmpty)
-                            Expanded(
-                              child: ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: state.student.lastViewedCourses.length,
-                                  scrollDirection: Axis.horizontal,
-                                  itemBuilder: ((context, index) {
-                                    final course = state.viewedCourses[index];
+                          Expanded(
+                            child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: state.student.lastViewedCourses.length,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: ((context, index) {
+                                  final course = state.viewedCourses[index];
 
-                                    return GestureDetector(
-                                      onTap: () async {
-                                        context
-                                            .read<StudentDashboardBloc>()
-                                            .add(StudentViewCourse(state.student, course));
-                                        await FileService.openfile(
-                                            url: course.resourceUrl, filename: course.resourceName);
-                                      },
-                                      child: Container(
-                                        padding: const EdgeInsets.symmetric(horizontal: 6),
-                                        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                                          Container(
-                                            padding: const EdgeInsets.only(left: 12),
-                                            width: width * 0.3,
-                                            child: Text("Read on",
-                                                textAlign: TextAlign.start,
-                                                style: Theme.of(context).textTheme.labelLarge),
-                                          ),
-                                          Container(
-                                            padding: const EdgeInsets.only(left: 10),
-                                            width: width * 0.4,
-                                            child: ConstrainedBox(
-                                              constraints: BoxConstraints(
-                                                maxHeight: height * 0.06,
-                                              ),
-                                              child: Text(
-                                                  DateFormat("MM-dd HH:mm").format(state.student.lastViewedCourses
-                                                      .firstWhere((element) => element.resource == course.id)
-                                                      .time
-                                                      .toDate()),
-                                                  textAlign: TextAlign.start,
-                                                  style: Theme.of(context).textTheme.labelSmall),
-                                            ),
-                                          ),
-                                          ClipRRect(
-                                            borderRadius: BorderRadius.circular(20),
-                                            child: Container(
-                                              // ignore: prefer_const_constructors
-                                              decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                    image: NetworkImage(course.imageUrl), fit: BoxFit.fill),
-                                              ),
-                                              width: width * 0.37,
-                                              height: height * 0.2,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: width * 0.03,
-                                          ),
-                                          ConstrainedBox(
+                                  return GestureDetector(
+                                    onTap: () async {
+                                      context
+                                          .read<StudentDashboardBloc>()
+                                          .add(StudentViewCourse(state.student, course));
+                                      await FileService.openfile(
+                                          url: course.resourceUrl, filename: course.resourceName);
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 6),
+                                      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                        Container(
+                                          padding: const EdgeInsets.only(left: 12),
+                                          width: width * 0.3,
+                                          child: Text("Read on",
+                                              textAlign: TextAlign.start,
+                                              style: Theme.of(context).textTheme.labelLarge),
+                                        ),
+                                        Container(
+                                          padding: const EdgeInsets.only(left: 10),
+                                          width: width * 0.4,
+                                          child: ConstrainedBox(
                                             constraints: BoxConstraints(
-                                              maxWidth: width * 0.5,
                                               maxHeight: height * 0.06,
                                             ),
-                                            child: Text(course.name, style: Theme.of(context).textTheme.titleMedium),
+                                            child: Text(
+                                                DateFormat("MM-dd HH:mm").format(state.student.lastViewedCourses
+                                                    .firstWhere((element) => element.resource == course.id)
+                                                    .time
+                                                    .toDate()),
+                                                textAlign: TextAlign.start,
+                                                style: Theme.of(context).textTheme.labelSmall),
                                           ),
-                                        ]),
-                                      ),
-                                    );
-                                  })),
-                            )
-                          else
-                            Center(child: Text("No activity so far", style: Theme.of(context).textTheme.headlineMedium))
-                        else if (state is StudentLastCoursesErrorState)
-                          Center(
-                              child: ErrorDisplay(
-                            "Error Loading Courses",
-                            width: width,
-                            height: height * 0.8,
-                          ))
-                      ],
-                    ),
-                  ),
+                                        ),
+                                        ClipRRect(
+                                          borderRadius: BorderRadius.circular(20),
+                                          child: Container(
+                                            // ignore: prefer_const_constructors
+                                            decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                  image: NetworkImage(course.imageUrl), fit: BoxFit.fill),
+                                            ),
+                                            width: width * 0.37,
+                                            height: height * 0.2,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: width * 0.03,
+                                        ),
+                                        ConstrainedBox(
+                                          constraints: BoxConstraints(
+                                            maxWidth: width * 0.5,
+                                            maxHeight: height * 0.06,
+                                          ),
+                                          child: Text(course.name, style: Theme.of(context).textTheme.titleMedium),
+                                        ),
+                                      ]),
+                                    ),
+                                  );
+                                })),
+                          )
+                        ],
+                      ),
+                    )
+                  else
+                    SizedBox(
+                        height: height * 0.35,
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0).copyWith(
+                                  bottom: height * 0.13,
+                                ),
+                                child: Text(
+                                  "Activity",
+                                  style: Theme.of(context).textTheme.headlineMedium,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text("No activity so far", style: Theme.of(context).textTheme.titleLarge),
+                              ),
+                            ])),
                   BlocProvider<CoursesBloc>(
                     create: (context) => CoursesBloc(sl())..add(LoadCoursesEvent()),
                     child: BlocConsumer<CoursesBloc, CoursesState>(

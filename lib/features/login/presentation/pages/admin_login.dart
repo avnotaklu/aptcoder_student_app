@@ -1,8 +1,8 @@
 import 'package:aptcoder/core/error/widgets/error.dart';
 import 'package:aptcoder/features/login/domain/entities/user.dart';
 import 'package:aptcoder/features/login/presentation/bloc/authentication_bloc.dart';
-import 'package:aptcoder/service/constants.dart';
-import 'package:aptcoder/views/student_login.dart';
+import 'package:aptcoder/features/login/presentation/pages/student_login.dart';
+import 'package:aptcoder/core/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -30,14 +30,7 @@ class AdminLoginPage extends StatelessWidget {
           }
         },
         builder: ((context, state) {
-          if (state is LoginProgressState) {
-            return const Scaffold(
-              body: LoadingWidget(),
-            );
-          }
-          if (state is AuthenticationInitialState) {
-            return const LoadingWidget();
-          } else {
+          if (state is AuthorizationPromptState || state is UnAuthorizedState || state is LogoutState) {
             return Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,6 +92,26 @@ class AdminLoginPage extends StatelessWidget {
                       child: const Text("Login as student")),
                 ),
               ],
+            );
+          } else if (state is LoginProgressState || state is AuthenticationInitialState) {
+            return Scaffold(
+              body: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "trying to \n Log you in",
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.headlineSmall!.copyWith(height: 1.2),
+                    ),
+                    const LoadingWidget(),
+                  ],
+                ),
+              ),
+            );
+          } else {
+            return const Scaffold(
+              body: LoadingWidget(),
             );
           }
         }),

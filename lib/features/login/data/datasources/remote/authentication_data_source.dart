@@ -3,7 +3,7 @@ import 'package:aptcoder/features/login/data/core/exception.dart';
 import 'package:aptcoder/features/login/domain/entities/user.dart';
 import 'package:aptcoder/features/student_dashboard/data/models/student.dart';
 import 'package:aptcoder/features/student_dashboard/domain/entities/student.dart';
-import 'package:aptcoder/service/constants.dart';
+import 'package:aptcoder/core/constants.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
