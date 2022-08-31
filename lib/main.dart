@@ -1,12 +1,12 @@
-import 'package:aptcoder/features/admin/presentation/bloc/admin_bloc.dart';
-import 'package:aptcoder/features/admin/presentation/pages/admin_panel.dart';
-import 'package:aptcoder/features/login/domain/entities/user.dart';
-import 'package:aptcoder/features/login/presentation/bloc/authentication_bloc.dart';
-import 'package:aptcoder/features/login/presentation/pages/student_login.dart';
-import 'package:aptcoder/features/student_dashboard/presentation/bloc/student_dashboard_bloc.dart';
-import 'package:aptcoder/features/student_dashboard/presentation/pages/homepage.dart';
+import 'package:aptcoder/features/domain/entities/authentication/user.dart';
+import 'package:aptcoder/features/presentation/pages/admin/admin_bloc.dart';
+import 'package:aptcoder/features/presentation/pages/admin/admin_panel.dart';
+import 'package:aptcoder/features/presentation/pages/authentication/authentication_bloc.dart';
+import 'package:aptcoder/features/presentation/pages/authentication/student_login.dart';
+import 'package:aptcoder/features/presentation/pages/student_dashboard/homepage.dart';
+import 'package:aptcoder/features/presentation/pages/student_dashboard/student_dashboard_bloc.dart';
 import 'package:aptcoder/firebase_options.dart';
-import 'package:aptcoder/core/injection_container.dart';
+import 'package:aptcoder/injection_container.dart';
 import 'package:aptcoder/core/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +17,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.android);
   runApp(BlocProvider<AuthenticationBloc>(
-      lazy: false, create: (context) => AuthenticationBloc(sl(), sl(), sl(),sl())..add(InitialAuthCheckEvent()), child: MyApp()));
+      lazy: false, create: (context) => sl<AuthenticationBloc>()..add(InitialAuthCheckEvent()), child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -72,40 +72,30 @@ class MyApp extends StatelessWidget {
                       {
                         _navigator.pushAndRemoveUntil(
                             MaterialPageRoute(
-                                builder: ((context) => BlocProvider<StudentDashboardBloc>(
-                                    create: (context) => StudentDashboardBloc(context.read(), sl(), sl(), sl())
-                                      ..add(FetchStudentEvent()),
-                                    child: const HomePage()))),
+                                builder: ((newContext) => MultiBlocProvider(providers: [
+                                      BlocProvider(
+                                        create: (newContext) => sl<StudentDashboardBloc>()..add(FetchStudentEvent()),
+                                      ),
+                                      BlocProvider(
+                                        create: (newContext) => sl<AuthenticationBloc>(),
+                                      )
+                                    ], child: const HomePage()))),
                             (route) => false)
                       }
                     else
                       {
                         _navigator.pushAndRemoveUntil(
                             MaterialPageRoute(
-                                builder: ((context) => BlocProvider<AdminBloc>(
-                                    create: (context) => AdminBloc(context.read(), sl(), sl())..add(FetchAdminEvent()),
-                                    child: const AdminPanel()))),
+                                builder: ((context) => MultiBlocProvider(
+                                        providers: [
+                                          BlocProvider(create: (newContext) => sl<AdminBloc>()..add(FetchAdminEvent())),
+                                          BlocProvider(
+                                            create: (newContext) => sl<AuthenticationBloc>(),
+                                          )
+                                        ], child: const AdminPanel()))),
                             (route) => false)
                       }
                   }
-                // else if (state is NewUserAuthenticated && state.type == Usertype.student)
-                //   {
-                //     _navigator.pushAndRemoveUntil(
-                //         MaterialPageRoute(
-                //             builder: ((context) => BlocProvider<StudentBloc>(
-                //                 create: (context) =>
-                //                     StudentBloc(context.read<AuthenticationBloc>())..add(AddStudentEvent(state.user)),
-                //                 child: const HomePage()))),
-                //         (route) => false)
-                //   }
-                // else if (state is NewUserAuthenticated && state.type == Usertype.admin)
-                //   _navigator.pushAndRemoveUntil(
-                //       MaterialPageRoute(
-                //           builder: ((context) => BlocProvider<AdminBloc>(
-                //               create: (context) =>
-                //                   AdminBloc(context.read<AuthenticationBloc>())..add(AddAdminEvent(state.user)),
-                //               child: const AdminPanel()))),
-                //       (route) => false)
               }),
           child: child)),
       onGenerateRoute: (_) => MaterialPageRoute(builder: ((context) => const StudentLoginPage())),

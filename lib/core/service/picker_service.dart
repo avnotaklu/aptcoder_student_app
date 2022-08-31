@@ -6,6 +6,8 @@ import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 
 class FileService {
+  FileService._();
+
   static final ImagePicker _picker = ImagePicker();
   static Future<XFile?> pickGalleryImage() async {
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
